@@ -96,7 +96,7 @@ apply, as a function which is pushed onto the stack.
 add
 ---
 
-Add
+Pop two values, then push their sum.
 
     | 1!1!+!
     = [2]
@@ -377,15 +377,15 @@ in a functional language:
 *   **apply** that single funciton
 
 They are correspondingly easy to parse.  While most programming languages
-require a context-free (or event context-sensitive) grammar to describe
+require a context-free (or even context-sensitive) grammar to describe
 their syntax, a purely concatenative language can be parsed with a regular
-expression.
+expression.  (And in Equipage's case, not even a complex one.)
 
 But many, probably most, concatenative languages are not purely so; that is,
 when specifying the program they incorporate some operations over and above
 function composition.
 
-One such useful thing is quoting - being able to nest subprograms within
+One such useful thing is quoting — being able to nest subprograms within
 a program, basically.  This seems to be how many of them deal with function
 definitions.
 
@@ -393,12 +393,22 @@ But this nesting is exactly what requires the grammar to be context-free.
 
 Carriage dealt with the issue of quoting by providing two interpretations
 of the program text: one where it is all quoted, another where it is all
-composed into a single function.  This is very esolang.
+composed into a single function.  This is very esolang.  But was, I must
+admit, somewhat unsatisfying (otherwise why would I be writing this.)
 
 Equipage's approach is to have almost every instruction "already quoted".
 That is, every symbol except `!` simply pushes a function onto the stack.
 If you need to actually apply it, you have to do that "manually", by
 following it with `!`.
+
+This results in long chains of `x!y!z!` for some instructions x, y, and z,
+and when you want to compose functions out of existing functions
+especially, long chains of `.!.!.!` whose length must match the number of
+constituent functions being composed.
+
+But if we're willing to add somewhat more complexity to the language,
+we can make something that is virtually the equivalent of syntactic
+quoting.
 
 ### EquipageQ ###
 
