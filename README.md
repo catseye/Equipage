@@ -446,16 +446,6 @@ The definition of those functions being
 
 That lets us write the above program like:
 
-    -> Tests for functionality "Interpret EquipageQ Program"
-
-    -> Functionality "Interpret EquipageQ Program" is implemented by
-    -> shell command
-    -> "(cd src && runhaskell Main.hs -Q %(test-body-file))"
-
-    -> Functionality "Interpret EquipageQ Program" is implemented by
-    -> shell command
-    -> "python3 impl/equipage.py/equipage.py -Q %(test-body-file)"
-
     (! 1~%1-1-1-~; )!
     (! $11-1-~; )!
     (! 1$ )!
