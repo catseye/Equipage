@@ -79,77 +79,77 @@ one, apply
 
 Pushing numbers on the stack.  Note stacks are outputted top-to-bottom.
 
-    | 1!
-    = [1]
+    1!
+    ===> [1]
 
-    | 1!1!
-    = [1,1]
+    1!1!
+    ===> [1,1]
 
 apply (deferred)
 ----------------
 
 apply, as a function which is pushed onto the stack.
 
-    | 1;!
-    = [1]
+    1;!
+    ===> [1]
 
 add
 ---
 
 Pop two values, then push their sum.
 
-    | 1!1!+!
-    = [2]
+    1!1!+!
+    ===> [2]
 
 nop
 ---
 
 Space and newline are both whitespace is nop.
 
-    | 1!  1!1!+!
-    | 1!1!+!1!+!
-    = [3,2,1]
+    1!  1!1!+!
+    1!1!+!1!+!
+    ===> [3,2,1]
 
 swap, pop
 ---------
 
 Test `\` (swap) and `$` (pop).
 
-    | 1!  1!1!+!  1!1!+!1!+!   \!$!
-    = [3,1]
+    1!  1!1!+!  1!1!+!1!+!   \!$!
+    ===> [3,1]
 
 sub
 ---
 
 Test `-`.
 
-    | 1!  1!1!+!  1!1!+!1!+!   +!+!  1!-!
-    = [5]
+    1!  1!1!+!  1!1!+!1!+!   +!+!  1!-!
+    ===> [5]
 
 sign
 ----
 
 Test `%` (sign).
 
-    | 1!1!+!1!+!   %!
-    = [1]
+    1!1!+!1!+!   %!
+    ===> [1]
 
-    | 1!1!-!1!-!   %!
-    = [-1]
+    1!1!-!1!-!   %!
+    ===> [-1]
 
-    | 1!1!-!       %!
-    = [0]
+    1!1!-!       %!
+    ===> [0]
 
 pick
 ----
 
 pick with a positive index picks from the top of the stack.
 
-    | 1!  1!1!+!  1!1!+!1!+!    1!              ~!
-    = [3,3,2,1]
+    1!  1!1!+!  1!1!+!1!+!    1!              ~!
+    ===> [3,3,2,1]
 
-    | 1!  1!1!+!  1!1!+!1!+!    1!1!+!          ~!
-    = [2,3,2,1]
+    1!  1!1!+!  1!1!+!1!+!    1!1!+!          ~!
+    ===> [2,3,2,1]
 
 Picking from the very top of the stack has the effect of
 duplicating the top stack element, so the idiom for `dup`
@@ -157,24 +157,24 @@ found in some other languages is `1!~!`.
 
 pick with a negative index picks from the bottom of the stack.
 
-    | 1!  1!1!+!  1!1!+!1!+!    1!1!-!1!-!      ~!
-    = [1,3,2,1]
+    1!  1!1!+!  1!1!+!1!+!    1!1!-!1!-!      ~!
+    ===> [1,3,2,1]
 
-    | 1!  1!1!+!  1!1!+!1!+!    1!1!-!1!-!1!-!  ~!
-    = [2,3,2,1]
+    1!  1!1!+!  1!1!+!1!+!    1!1!-!1!-!1!-!  ~!
+    ===> [2,3,2,1]
 
 pick with a zero index is zero, always.
 
-    | 1!  1!1!+!  1!1!+!1!+!    1!1!-!          ~!
-    = [0,3,2,1]
+    1!  1!1!+!  1!1!+!1!+!    1!1!-!          ~!
+    ===> [0,3,2,1]
 
 compose
 -------
 
 Compose pop and swap into a single function, and apply it.
 
-    | 1!  1!1!+!  1!1!+!1!+!    \$.!    !
-    = [3,1]
+    1!  1!1!+!  1!1!+!1!+!    \$.!    !
+    ===> [3,1]
 
 idiom: compose + pick + apply = call
 ------------------------------------
@@ -188,21 +188,24 @@ use one of these functions, one would pick it using its known
 Create a function which pushes 2 onto the stack, and apply it
 several times.
 
-    | 11+.!.!
-    | 1!1!-!1!-!~!;!
-    | 1!1!-!1!-!~!;!
-    | 1!1!-!1!-!~!;!
-    = [2,2,2,<fn>]
+    11+.!.!
+    1!1!-!1!-!~!;!
+    1!1!-!1!-!~!;!
+    1!1!-!1!-!~!;!
+    ===> [2,2,2,<fn>]
+
+(Yes, the code to fetch and apply the function, is longer than
+the function itself.  So it goes.)
 
 Create a function which doubles the value on the stack, and
 apply it to 1 several times.
 
-    | 1~+.!.!
-    | 1!
-    | 1!1!-!1!-!~!;!
-    | 1!1!-!1!-!~!;!
-    | 1!1!-!1!-!~!;!
-    = [8,<fn>]
+    1~+.!.!
+    1!
+    1!1!-!1!-!~!;!
+    1!1!-!1!-!~!;!
+    1!1!-!1!-!~!;!
+    ===> [8,<fn>]
 
 idiom: sign + pick = if
 -----------------------
@@ -214,17 +217,17 @@ we can then apply the one we get.
 
 In this example, a is 2, b is 3, and the value is zero.
 
-    | 1!1!+!  1!1!+!1!+!
-    | 1!1!-!
-    | %!1!+!~!
-    = [3,3,2]
+    1!1!+!  1!1!+!1!+!
+    1!1!-!
+    %!1!+!~!
+    ===> [3,3,2]
 
 In this example, a is 2, b is 3, and the value is 4.
 
-    | 1!1!+!  1!1!+!1!+!
-    | 1!1!+!1!1!+!+!
-    | %!1!+!~!
-    = [2,3,2]
+    1!1!+!  1!1!+!1!+!
+    1!1!+!1!1!+!+!
+    %!1!+!~!
+    ===> [2,3,2]
 
 It's possible to do a variant of this that picks from the bottom
 of the stack.  This is left as an exercise for the reader.
@@ -305,66 +308,66 @@ Let's test these parts in isolation a bit maybe.
 
 Initial stack:
 
-    | 11+11-11+1
-    | .!.!.!.!.!.!.!.!.!
-    | !
-    = [1,2,0,2]
+    11+11-11+1
+    .!.!.!.!.!.!.!.!.!
+    !
+    ===> [1,2,0,2]
 
 Nop:
 
-    | 1$
-    | .!
-    | !
-    = []
+    1$
+    .!
+    !
+    ===> []
 
 Run f1 initially (here, f1 is nop):
 
-    | 1$
-    | .!
-    | 
-    | 11-1-~;
-    | .!.!.!.!.!.!
-    | !
-    = [<fn>]
+    1$
+    .!
+    
+    11-1-~;
+    .!.!.!.!.!.!
+    !
+    ===> [<fn>]
 
 Everything but run.
 
-    | 1~%1-1-1-~;
-    | .!.!.!.!.!.!.!.!.!.!
-    | 
-    | $11-1-~;
-    | .!.!.!.!.!.!.!
-    | 
-    | 1$
-    | .!
-    | 
-    | 11+11-11+1
-    | .!.!.!.!.!.!.!.!.!
-    | !
-    | 
-    | 11-1-~;
-    | .!.!.!.!.!.!
-    = [<fn>,1,2,0,2,<fn>,<fn>,<fn>]
+    1~%1-1-1-~;
+    .!.!.!.!.!.!.!.!.!.!
+    
+    $11-1-~;
+    .!.!.!.!.!.!.!
+    
+    1$
+    .!
+    
+    11+11-11+1
+    .!.!.!.!.!.!.!.!.!
+    !
+    
+    11-1-~;
+    .!.!.!.!.!.!
+    ===> [<fn>,1,2,0,2,<fn>,<fn>,<fn>]
 
 The final result:
 
-    | 1~%1-1-1-~;
-    | .!.!.!.!.!.!.!.!.!.!
-    | 
-    | $11-1-~;
-    | .!.!.!.!.!.!.!
-    | 
-    | 1$
-    | .!
-    | 
-    | 11+11-11+1
-    | .!.!.!.!.!.!.!.!.!
-    | !
-    | 
-    | 11-1-~;
-    | .!.!.!.!.!.!
-    | !
-    = [0,2,<fn>,<fn>,<fn>]
+    1~%1-1-1-~;
+    .!.!.!.!.!.!.!.!.!.!
+    
+    $11-1-~;
+    .!.!.!.!.!.!.!
+    
+    1$
+    .!
+    
+    11+11-11+1
+    .!.!.!.!.!.!.!.!.!
+    !
+    
+    11-1-~;
+    .!.!.!.!.!.!
+    !
+    ===> [0,2,<fn>,<fn>,<fn>]
 
 Discussion: Quoting
 -------------------
@@ -412,6 +415,16 @@ quoting.
 
 ### EquipageQ ###
 
+    -> Tests for functionality "Interpret EquipageQ Program"
+
+    -> Functionality "Interpret EquipageQ Program" is implemented by
+    -> shell command
+    -> "(cd src && runhaskell Main.hs -Q %(test-body-file))"
+
+    -> Functionality "Interpret EquipageQ Program" is implemented by
+    -> shell command
+    -> "python3 impl/equipage.py/equipage.py -Q %(test-body-file)"
+
 We can define a minor dialect of Equipage, which we will call EquipageQ,
 which lets us handle quoting in a syntactically nicer way.
 
@@ -443,9 +456,9 @@ That lets us write the above program like:
     -> shell command
     -> "python3 impl/equipage.py/equipage.py -Q %(test-body-file)"
 
-    | (! 1~%1-1-1-~; )!
-    | (! $11-1-~; )!
-    | (! 1$ )!
-    | (! 11+11-11+1 )!!
-    | (! 11-1-~; )!!
-    = [0,2,<fn>,<fn>,<fn>]
+    (! 1~%1-1-1-~; )!
+    (! $11-1-~; )!
+    (! 1$ )!
+    (! 11+11-11+1 )!!
+    (! 11-1-~; )!!
+    ===> [0,2,<fn>,<fn>,<fn>]
