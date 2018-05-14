@@ -2,7 +2,7 @@ Equipage
 ========
 
 Equipage is the language that [Carriage][] might have been had I not been
-so concerned about quoting.  (See "Discussion: Quoting", below.)
+so concerned about quoting.  (See "[Discussion: Quoting][]", below.)
 
 Equipage is a purely concatenative language.  In this context, that means:
 
@@ -53,6 +53,13 @@ So.  Here is an example program text:
 Given the above table, this program maps to the function
 
     push(one) ∘ apply ∘ push(pop) ∘ apply
+
+The remainder of this document gives some examples of Equipage programs,
+which also serve as test cases, and then discusses some aspects of the
+language's design.
+
+[Carriage]: http://esolangs.org/wiki/Carriage
+[Discussion: Quoting]: #discussion-quoting
 
 Equipage Tests
 --------------
@@ -432,5 +439,3 @@ That lets us write the above program like:
     | (! 11+11-11+1 )!!
     | (! 11-1-~; )!!
     = [0,2,<fn>,<fn>,<fn>]
-
-[Carriage]: http://esolangs.org/wiki/Carriage
