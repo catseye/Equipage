@@ -19,32 +19,32 @@ which take stacks to stacks.
 Here is a table mapping the legal Equipage symbols to functions.
 
     !        apply
-    ;        push apply onto the stack
-    .        push compose onto the stack
-    $        push pop onto the stack
-    \        push swap onto the stack
-    +        push add onto the stack
-    -        push sub onto the stack
-    %        push sign onto the stack
-    ~        push pick onto the stack
-    1        push one onto the stack
+    ;        push *apply* onto the stack
+    .        push *compose* onto the stack
+    $        push *pop* onto the stack
+    \        push *swap* onto the stack
+    +        push *add* onto the stack
+    -        push *sub* onto the stack
+    %        push *sign* onto the stack
+    ~        push *pick* onto the stack
+    1        push *one* onto the stack
     <space>  nop
 
 (`<space>` is intended to be, in fact, any whitespace.)
 
 And here is an informal description of the functions named in the above table.
 
-    apply:   pop a function off the stack and apply it to the rest of the stack
-    compose: pop a function g, then a function h, off the stack, then push g.h
-    pop:     pop a value off the stack and discard it
-    swap:    pop a value a, then a value b, off the stack, then push a, then push b
-    add:     pop a value a, then a value b, off the stack, then push a + b
-    sub:     pop a value a, then a value b, off the stack, then push b - a
-    sign:    pop a value off the stack, then push 1, 0, or -1, depending on its sign
-    pick:    pop a value n off the stack, then copy the n'th element on the stack
-             and push it onto the stack.  If n is negative, work from bottom of stack.
-    one:     push the value 1 onto the stack
-    nop:     do nothing to the stack.  (identity function.)
+    *apply*:   pop a function off the stack and apply it to the rest of the stack
+    *compose*: pop a function g, then a function h, off the stack, then push g.h
+    *pop*:     pop a value off the stack and discard it
+    *swap*:    pop a value a, then a value b, off the stack, then push a, then push b
+    *add*:     pop a value a, then a value b, off the stack, then push a + b
+    *sub*:     pop a value a, then a value b, off the stack, then push b - a
+    *sign*:    pop a value off the stack, then push 1, 0, or -1, depending on its sign
+    *pick*:    pop a value n off the stack, then copy the n'th element on the stack
+               and push it onto the stack.  If n is negative, work from bottom of stack.
+    *one*:     push the value 1 onto the stack
+    *nop*:     do nothing to the stack.  (identity function.)
 
 So.  Here is an example program text:
 
@@ -230,7 +230,8 @@ In this example, a is 2, b is 3, and the value is 4.
     ===> [2,3,2]
 
 It's possible to do a variant of this that picks from the bottom
-of the stack.  This is left as an exercise for the reader.
+of the stack.  We'll see how to do that in a more exhaustive test
+below.
 
 idiom: pick self + apply = loop
 -------------------------------
@@ -270,10 +271,11 @@ Working out the pseudocode a bit:
 
     def f1:
         duplicate value on stack
+        take the sign
         if it is zero,
             f3 (i.e. -3, pick, apply)
         else,
-            f2
+            f2 (i.e. -2, pick, apply)
 
     def f2:
         pop a value off the stack
@@ -407,7 +409,7 @@ following it with `!`.
 This results in long chains of `x!y!z!` for some instructions x, y, and z,
 and when you want to compose functions out of existing functions
 especially, long chains of `.!.!.!` whose length must match the number of
-constituent functions being composed.
+composition operations involved in composing the constituent functions.
 
 But if we're willing to add somewhat more complexity to the language,
 we can make something that is virtually the equivalent of syntactic
@@ -429,10 +431,10 @@ We can define a minor dialect of Equipage, which we will call EquipageQ,
 which lets us handle quoting in a syntactically nicer way.
 
 EquipageQ adds a special value, MARKER, which can appear on the stack.
-It adds two new symbols to the vocabulary:
+It also adds two new symbols to the vocabulary:
 
-    (        push mark onto the stack
-    )        push define onto the stack
+    (        push *mark* onto the stack
+    )        push *define* onto the stack
 
 (Note that, by having these symbols push functions onto the stack, we
 are following the Equipage approach.  We will need to apply these with
@@ -440,11 +442,16 @@ are following the Equipage approach.  We will need to apply these with
 
 The definition of those functions being
 
-    mark:    push a MARKER onto the stack
-    define:  keep popping functions off the stack, composing them, until a
-             MARKER popped; then push the resulting function onto the stack
+    *mark*:    push a MARKER onto the stack
+    *define*:  keep popping functions off the stack, composing them,
+               until a MARKER is popped; then push the resulting function
+               onto the stack
 
-That lets us write the above program like:
+That lets us write `wxyz.!.!.!` as `(!wxyz)!`, which is simpler,
+because we don't need to be careful that the number of compose
+operations matches the number of functions being composed.
+
+And that lets us write the above program like:
 
     (! 1~%1-1-1-~; )!
     (! $11-1-~; )!
