@@ -83,6 +83,9 @@ void pick(struct stack *stack, int index, struct elem *out) {
 
 /**** Function Utilities ****/
 
+/*
+ * This function takes ownership of the lhs and rhs passed to it.
+ */
 struct function *make_function(enum fntype fntype, struct function *lhs, struct function *rhs) {
     struct function *fn;
 
@@ -100,6 +103,60 @@ struct function *make_push(enum fntype fntype) {
 }
 
 
+struct function *copy_function(struct function *src) {
+    return make_function(src->fntype, src->lhs, src->rhs);
+}
+
+
+void dump_function(struct function *fn) {
+    switch (fn->fntype) {
+        case APPLY:
+            printf("apply");
+            break;
+        case COMPOSE:
+            printf("compose");
+            break;
+        case POP:
+            printf("pop");
+            break;
+        case SWAP:
+            printf("swap");
+            break;
+        case ADD:
+            printf("add");
+            break;
+        case SUB:
+            printf("sub");
+            break;
+        case SIGN:
+            printf("sign");
+            break;
+        case PICK:
+            printf("pick");
+            break;
+        case ONE:
+            printf("one");
+            break;
+        case NOP:
+            printf("nop");
+            break;
+
+        case PUSH:
+            printf("(push ");
+            dump_function(fn->lhs);
+            printf(")");
+            break;
+        case CONCAT:
+            printf("(concat ");
+            dump_function(fn->lhs);
+            printf(" ");
+            dump_function(fn->rhs);
+            printf(")");
+            break;
+    }
+}
+
+
 /**** Evaluation ****/
 
 void apply_(struct function *fn, struct stack *stack) {
@@ -113,8 +170,9 @@ void apply_(struct function *fn, struct stack *stack) {
         case COMPOSE:
             pop(stack, &a);
             pop(stack, &b);
-            // FIXME no - will need to make copies of a and b
             c.num = 0;
+            /* Even though a and b are local variables, the functions they point to, aren't.  So this is OK. */
+            /* (I think.) */
             c.fn = make_function(CONCAT, a.fn, b.fn);
             push(stack, &c);
             break;
@@ -206,13 +264,16 @@ struct function *semantics(char c) {
 }
 
 
-struct function *parse(char *text) {
+struct function *parse_stream(FILE *stream) {
+    char c;
     struct function *fn;
 
     fn = make_function(NOP, NULL, NULL);
 
-    for (int i = 0; text[i]; i++) {
-        fn = make_function(CONCAT, semantics(text[i]), fn);
+    c = fgetc(stream);
+    while (!feof(stream)) {
+        fn = make_function(CONCAT, semantics(c), fn);
+        c = fgetc(stream);
     }
 
     return fn;
@@ -220,4 +281,19 @@ struct function *parse(char *text) {
 
 
 int main(int argc, char **argv) {
+    FILE *f;
+    struct function *program;
+
+    f = fopen(argv[1], "r");
+    if (!f) {
+        fprintf(stderr, "Couldn't open '%s' for reading\n", argv[1]);
+        exit(1);
+    }
+
+    program = parse_stream(f);
+    fclose(f);
+
+    dump_function(program);
+
+    return 0;
 }
