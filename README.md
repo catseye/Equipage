@@ -74,6 +74,10 @@ Equipage Tests
     -> shell command
     -> "python3 impl/equipage.py/equipage.py %(test-body-file)"
 
+    -> Functionality "Interpret Equipage Program" is implemented by
+    -> shell command
+    -> "python3 impl/equipage.py/imperative.py %(test-body-file)"
+
 one, apply
 ----------
 
