@@ -37,17 +37,17 @@ Here is a table mapping the legal Equipage symbols to functions.
 
 And here is an informal description of the functions named in the above table.
 
-    *apply*:   pop a function off the stack and apply it to the rest of the stack
-    *compose*: pop a function g, then a function h, off the stack, then push g∘h
-    *pop*:     pop a value off the stack and discard it
-    *swap*:    pop a value a, then a value b, off the stack, then push a, then push b
-    *add*:     pop a value a, then a value b, off the stack, then push a + b
-    *sub*:     pop a value a, then a value b, off the stack, then push b - a
-    *sign*:    pop a value off the stack, then push 1, 0, or -1, depending on its sign
-    *pick*:    pop a value n off the stack, then copy the n'th element on the stack
-               and push it onto the stack.  If n is negative, work from bottom of stack.
-    *one*:     push the value 1 onto the stack
-    *nop*:     do nothing to the stack.  (identity function.)
+    apply:   pop a function off the stack and apply it to the rest of the stack
+    compose: pop a function g, then a function h, off the stack, then push g∘h
+    pop:     pop a value off the stack and discard it
+    swap:    pop a value a, then a value b, off the stack, then push a, then push b
+    add:     pop a value a, then a value b, off the stack, then push a + b
+    sub:     pop a value a, then a value b, off the stack, then push b - a
+    sign:    pop a value off the stack, then push 1, 0, or -1, depending on its sign
+    pick:    pop a value n off the stack, then copy the n'th element on the stack
+             and push it onto the stack.  If n is negative, work from bottom of stack.
+    one:     push the value 1 onto the stack
+    nop:     do nothing to the stack.  (identity function.)
 
 So.  Here is an example program text:
 
@@ -57,13 +57,13 @@ Given the above table, this program maps to the function
 
     push(one) ∘ apply ∘ push(pop) ∘ apply
 
-which can be thought of, operationaally, as doing the following when run:
+which can be thought of operationally as doing the following when run:
 
-*   pushes the function *one* onto the stack
-*   pops the function *one* off the stack and applies it, which pushes the integer *1*
-    onto the stack
-*   pushes the function *pop* onto the stack
-*   pops the function *pop* off the stack and applies it, which pops the integer *1*
+*   pushes the function `one` onto the stack
+*   pops the function `one` off the stack and applies it, which pushes the integer
+    1 onto the stack
+*   pushes the function `pop` onto the stack
+*   pops the function `pop` off the stack and applies it, which pops the integer 1
     off the stack and discards it
 
 The remainder of this document gives some examples of Equipage programs,
@@ -483,10 +483,10 @@ are following the Equipage approach.  We will need to apply these with
 
 The definition of those functions being
 
-    *mark*:    push a MARKER onto the stack
-    *define*:  keep popping functions off the stack, composing them,
-               until a MARKER is popped; then push the resulting function
-               onto the stack
+    mark:    push a MARKER onto the stack
+    define:  keep popping functions off the stack, composing them,
+             until a MARKER is popped; then push the resulting function
+             onto the stack
 
 That lets us write `wxyz.!.!.!` as `(!wxyz)!`, which is simpler,
 because we don't need to be careful that the number of compose
