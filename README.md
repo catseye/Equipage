@@ -4,7 +4,8 @@ Equipage
 Equipage is the language that [Carriage][] might have been had I not been
 so concerned about quoting.  (See "[Discussion: Quoting][]", below.)
 
-Equipage is a purely concatenative language.  In this context, that means:
+Equipage is a purely concatenative programming language.  In this context,
+that means:
 
 -   Every symbol in the language is associated with a function that
     takes stacks to stacks.
@@ -13,8 +14,10 @@ Equipage is a purely concatenative language.  In this context, that means:
 
 Thus, the meaning of a program is a function that takes stacks to stacks.
 
-A stack may contain two kinds of values: unbounded integers, and functions
-which take stacks to stacks.
+A stack contains zero or more elements, and each element may be one of
+two kinds of values: unbounded integers, and functions which take stacks
+to stacks.  A stack is generally accessed in a LIFO fashion, with a few
+strategic exceptions.
 
 Here is a table mapping the legal Equipage symbols to functions.
 
@@ -30,12 +33,12 @@ Here is a table mapping the legal Equipage symbols to functions.
     1        push *one* onto the stack
     <space>  nop
 
-(`<space>` is intended to be, in fact, any whitespace.)
+(where `<space>` represents any whitespace character.)
 
 And here is an informal description of the functions named in the above table.
 
     *apply*:   pop a function off the stack and apply it to the rest of the stack
-    *compose*: pop a function g, then a function h, off the stack, then push g.h
+    *compose*: pop a function g, then a function h, off the stack, then push g∘h
     *pop*:     pop a value off the stack and discard it
     *swap*:    pop a value a, then a value b, off the stack, then push a, then push b
     *add*:     pop a value a, then a value b, off the stack, then push a + b
@@ -53,6 +56,15 @@ So.  Here is an example program text:
 Given the above table, this program maps to the function
 
     push(one) ∘ apply ∘ push(pop) ∘ apply
+
+which can be thought of, operationaally, as doing the following when run:
+
+*   pushes the function *one* onto the stack
+*   pops the function *one* off the stack and applies it, which pushes the integer *1*
+    onto the stack
+*   pushes the function *pop* onto the stack
+*   pops the function *pop* off the stack and applies it, which pops the integer *1*
+    off the stack and discards it
 
 The remainder of this document gives some examples of Equipage programs,
 which also serve as test cases, and then discusses some aspects of the
@@ -265,7 +277,7 @@ Pseudocode:
     push 2, 0, 2, 1
     f1
 
-result should be `[0,2,<functions>]`.
+The result should be `[0,2,<functions>]`.
 
 Working out the pseudocode a bit:
 
@@ -370,6 +382,35 @@ The final result:
     .!.!.!.!.!.!
     !
     ===> [0,2,<fn>,<fn>,<fn>]
+
+Discussion: Computational Class
+-------------------------------
+
+Equipage stores data on a LIFO stack; thus there is reason to suspect that
+it might not be Turing-complete, as it cannot access data arbitrarily.
+
+However, we should consider the following:
+
+*   The `swap` function allows us to access the top two elements on the
+    stack arbitrarily, and an element can be an integer value, with no
+    bounds imposed on its size.  Equipage can increment, decrement, and
+    branch if the value is zero.  Therefore it seems plausible that one
+    could implement a 2-counter [Minsky machine][] in Equipage.
+*   The `pick` function allows us to read from the bottom of the stack
+    (but not write to it.)  Careful manipulation of the index from which
+    values are being picked might allow one to simulate a queue in the
+    upper portion of an ever-growing stack, and it seems plausible that
+    this queue could be used to implement a [Tag system][].
+*   Finally, Equipage allows the construction of new functions from
+    existing functions through composition; data and data structures can
+    be encoded in these functions in the manner of [Church numerals][];
+    and it seems plausible that, given a Turing machine, one could
+    construct an Equipage function which, when applied, simulates one
+    step (or many steps) of that machine.
+
+[Minsky machine]: http://esolangs.org/wiki/Minsky_machine
+[Tag system]: http://esolangs.org/wiki/Tag_system
+[Church numerals]: http://esolangs.org/wiki/Church_numeral
 
 Discussion: Quoting
 -------------------
