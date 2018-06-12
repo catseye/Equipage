@@ -409,7 +409,8 @@ However, we should consider the following:
     be encoded in these functions in the manner of [Church numerals][];
     and it seems plausible that, given a Turing machine, one could
     construct an Equipage function which, when applied, simulates one
-    step (or many steps) of that machine.
+    step (or many steps) of that machine, simply by evaluating to a
+    suitably modified version of itself.
 
 [Minsky machine]: http://esolangs.org/wiki/Minsky_machine
 [Tag system]: http://esolangs.org/wiki/Tag_system
@@ -503,3 +504,16 @@ And that lets us write the above program like:
     (! 11+11-11+1 )!!
     (! 11-1-~; )!!
     ===> [0,2,<fn>,<fn>,<fn>]
+
+We can further say that if `define` exhausts the stack without seeing
+a MARKER it acts as if there was a MARKER at the very bottom of the
+stack.  This permits us to say what the meaning of an Equipage program
+is, even if it contains unbalanced parentheses.  This is of course not
+a full compensation for not having them as a syntactic construct, which,
+for the price of having a parsing phase, buys you things like being
+able to detect unbalanced parentheses without running the program.
+
+Happy concatenating!  
+Chris Pressey  
+London, UK  
+June 12th, 2018
