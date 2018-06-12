@@ -13,10 +13,13 @@ that means:
     functions associated with those symbols.
 
 Thus, the meaning of a program is a function that takes stacks to stacks.
+Since the program generally only deals with one stack at a time, it is
+also possible to think of this as a single stack ("the" stack) which gets
+modified over time.
 
-A stack contains zero or more elements, and each element may be one of
+The stack contains zero or more elements, and each element may be one of
 two kinds of values: unbounded integers, and functions which take stacks
-to stacks.  A stack is generally accessed in a LIFO fashion, with a few
+to stacks.  The stack is generally accessed in a LIFO fashion, with a few
 strategic exceptions.
 
 Here is a table mapping the legal Equipage symbols to functions.
