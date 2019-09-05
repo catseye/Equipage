@@ -1,0 +1,8 @@
+version: '2'
+services:
+  dev:
+    build: .
+    volumes:
+      - ${PWD}:/equipage
+      - ${PWD}/../../eg:/eg
+    working_dir: /equipage
