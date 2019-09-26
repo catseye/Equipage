@@ -1,1 +1,6 @@
 *.pyc
+*.exe
+*.hi
+*.o
+*.js
+*.jsmod
