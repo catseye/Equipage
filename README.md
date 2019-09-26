@@ -82,8 +82,7 @@ Equipage Tests
     -> Tests for functionality "Interpret Equipage Program"
 
     -> Functionality "Interpret Equipage Program" is implemented by
-    -> shell command
-    -> "(cd src && runhaskell Main.hs %(test-body-file))"
+    -> shell command "bin/equipage %(test-body-file)"
 
     -> Functionality "Interpret Equipage Program" is implemented by
     -> shell command
@@ -465,8 +464,7 @@ quoting.
     -> Tests for functionality "Interpret EquipageQ Program"
 
     -> Functionality "Interpret EquipageQ Program" is implemented by
-    -> shell command
-    -> "(cd src && runhaskell Main.hs -Q %(test-body-file))"
+    -> shell command "bin/equipage -Q %(test-body-file)"
 
     -> Functionality "Interpret EquipageQ Program" is implemented by
     -> shell command

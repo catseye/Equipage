@@ -1,4 +1,4 @@
-module EquipageQ where
+module Language.EquipageQ where
 
 data Elem = Int Integer
           | Fn ([Elem] -> [Elem])

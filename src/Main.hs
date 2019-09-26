@@ -1,8 +1,10 @@
 module Main where
 
 import System.Environment
-import qualified Equipage
-import qualified EquipageQ
+
+import qualified Language.Equipage as Equipage
+import qualified Language.EquipageQ as EquipageQ
+
 
 main = do
     args <- getArgs
