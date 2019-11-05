@@ -1,6 +1,14 @@
 Equipage
 ========
 
+_Try it online_ [@ catseye.tc](https://catseye.tc/installation/Equipage)
+| _Wiki entry_ [@ esolangs.org](https://esolangs.org/wiki/Equipage)
+| _See also:_ [Carriage](https://github.com/catseye/Carriage)
+∘ [Wagon](https://github.com/catseye/Wagon)
+∘ [Oxcart](https://github.com/catseye/Oxcart)
+
+- - - -
+
 Equipage is the language that [Carriage][] might have been had I not been
 so concerned about quoting.  (See "[Discussion: Quoting][]", below.)
 
