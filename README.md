@@ -3,9 +3,9 @@ Equipage
 
 _Try it online_ [@ catseye.tc](https://catseye.tc/installation/Equipage)
 | _Wiki entry_ [@ esolangs.org](https://esolangs.org/wiki/Equipage)
-| _See also:_ [Carriage](https://github.com/catseye/Carriage)
-∘ [Wagon](https://github.com/catseye/Wagon)
-∘ [Oxcart](https://github.com/catseye/Oxcart)
+| _See also:_ [Carriage](https://github.com/catseye/Carriage#readme)
+∘ [Wagon](https://github.com/catseye/Wagon#readme)
+∘ [Oxcart](https://github.com/catseye/Oxcart#readme)
 
 - - - -
 
